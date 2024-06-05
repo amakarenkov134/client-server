@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QMessageBox>
 #include <QDebug>
+#include <bitset>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,12 +24,17 @@ public:
     QTcpSocket* socket;
     QByteArray Data;
 
+
 public slots:
     void sockReady();
     void sockDisc();
 
 private slots:
     void on_connectPushButton_clicked();
+
+    void on_disconnecPushButton_clicked();
+
+    void on_sendPushButton_clicked();
 
 private:
     Ui::MyClient *ui;

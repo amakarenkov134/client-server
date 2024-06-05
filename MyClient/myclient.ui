@@ -14,13 +14,13 @@
    <string>MyClient</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>410</y>
-      <width>301</width>
-      <height>91</height>
+      <x>90</x>
+      <y>400</y>
+      <width>571</width>
+      <height>151</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -32,13 +32,37 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QPushButton" name="connectPushButton">
-       <property name="text">
-        <string>connect</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="connectPushButton">
+         <property name="text">
+          <string>connect</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="disconnecPushButton">
+         <property name="text">
+          <string>disconnect</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="sendPushButton">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>240</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>send</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

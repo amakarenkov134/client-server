@@ -4,6 +4,19 @@ MyServer::MyServer(){}
 
 MyServer::~MyServer(){}
 
+std::string MyServer::to_binary_string(unsigned int n)
+{
+    std::string buffer; // символы ответа в обратном порядке
+    // выделим память заранее по максимуму
+    buffer.reserve(std::numeric_limits<unsigned int>::digits);
+    do
+    {
+        buffer += char('0' + n % 2); // добавляем в конец
+        n = n / 2;
+    } while (n > 0);
+    return std::string(buffer.crbegin(), buffer.crend());
+}
+
 void MyServer::startServer()
 {
     if (this->listen(QHostAddress::Any, 5555))
@@ -26,13 +39,22 @@ void MyServer::incomingConnection(qintptr socketDescriptor)
 
     qDebug()<<socketDescriptor<<" Client connected";
 
-    socket->write("You are connect");
+
     qDebug()<<"Send client connect status - YES";
 }
 
+
+
 void MyServer::sockReady()
 {
+    Data = socket->readAll();
 
+    uint8_t local = Data.at(0);
+
+    std::string pop = to_binary_string(local);
+    qDebug()<<pop;
+
+    socket->write(Data);
 }
 
 void MyServer::sockDisc()
