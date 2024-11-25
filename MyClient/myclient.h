@@ -5,7 +5,6 @@
 #include <QTcpSocket>
 #include <QMessageBox>
 #include <QDebug>
-#include <bitset>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
