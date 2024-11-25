@@ -8,13 +8,24 @@ MyClient::MyClient(QWidget *parent)
     ui->setupUi(this);
 
     socket = new QTcpSocket(this);
-    connect(socket,SIGNAL(readyRead()),this,SLOT(sockReady()));
-    connect(socket,SIGNAL(disconnected()),this,SLOT(sockDisc()));
+
+    connect(socket, SIGNAL(readyRead()), this, SLOT(sockReady()));
+    connect(socket, SIGNAL(disconnected()), this, SLOT(sockDisc()));
+    connect(socket, SIGNAL(connected()), this, SLOT(onConnected()));
+
+    connect(ui->connectPushButton, QPushButton::clicked, this, &MyClient::onConnectButtonClicked);
+    connect(ui->disconnecPushButton, QPushButton::clicked, this, &MyClient::onDisconnecButtonClicked);
+    connect(ui->sendPushButton, QPushButton::clicked, this, &MyClient::onSendButtonClicked);
 }
 
 MyClient::~MyClient()
 {
     delete ui;
+}
+
+void MyClient::onConnected()
+{
+    ui->connectionStatus->setText("Connect!");
 }
 
 void MyClient::sockDisc()
@@ -24,49 +35,37 @@ void MyClient::sockDisc()
 
 void MyClient::sockReady()
 {
-        Data = socket->readAll();
+    m_data = socket->readAll();
 
-        qDebug()<<Data.toStdString();
+    ui->connectionStatus->setText(QString::fromStdString(m_data.toStdString()));
 
+    qDebug()<<m_data.toStdString();
 }
 
-void MyClient::on_connectPushButton_clicked()
+void MyClient::onConnectButtonClicked()
 {
-    socket->connectToHost("127.0.0.1", 5555, QIODevice::WriteOnly);
+    socket->connectToHost("127.0.0.1", 5555, QIODevice::ReadWrite);
      //socket->connectToHost();
 }
 
 
-void MyClient::on_disconnecPushButton_clicked()
+void MyClient::onDisconnecButtonClicked()
 {
     ui->connectionStatus->setText("Disconnect!");
     socket->deleteLater();
 }
 
 
-void MyClient::on_sendPushButton_clicked()
+void MyClient::onSendButtonClicked()
 {
-    std::bitset<8> bits;
-
-    bits[7] = 1;
-
-    bits[6] = 0;
-
-    bits[5] = 1;
-
-
-
-    uint8_t localData = bits.to_ulong();
-
-    // const char *c = reinterpret_cast<const char *>(localData);
+    if (ui->lineEdit->text() == ' ') {
+        QMessageBox::information(this, "Ошибка", "Введите сообщение!");
+        return;
+    }
 
     QByteArray ba;
 
-    //ba.resize(1);
-    ba.append(localData);
-
-    //const char *hui = reinterpret_cast<const *char>
-
+    ba.append(ui->lineEdit->text().toLocal8Bit());
     socket->write(ba);
 }
 

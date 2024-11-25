@@ -13,13 +13,13 @@ public:
     MyServer();
     ~MyServer();
 
-    QTcpSocket* socket;
-    QByteArray Data;
+    QTcpSocket *socket;
+    QByteArray data;
     std::string to_binary_string(unsigned int n);
 
 public slots:
     void startServer();
-    void incomingConnection(qintptr socketDescriptor);
+    void incomingConnection(qintptr socketDescriptor) override;
     void sockReady();
     void sockDisc();
 };

@@ -22,19 +22,17 @@ public:
     ~MyClient();
 
     QTcpSocket* socket;
-    QByteArray Data;
+    QByteArray m_data;
 
-
-public slots:
-    void sockReady();
-    void sockDisc();
 
 private slots:
-    void on_connectPushButton_clicked();
 
-    void on_disconnecPushButton_clicked();
-
-    void on_sendPushButton_clicked();
+    void onConnected();
+    void sockReady();
+    void sockDisc();
+    void onConnectButtonClicked();
+    void onDisconnecButtonClicked();
+    void onSendButtonClicked();
 
 private:
     Ui::MyClient *ui;

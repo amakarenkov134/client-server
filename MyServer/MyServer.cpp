@@ -47,14 +47,10 @@ void MyServer::incomingConnection(qintptr socketDescriptor)
 
 void MyServer::sockReady()
 {
-    Data = socket->readAll();
+    data = socket->readAll();
 
-    uint8_t local = Data.at(0);
-
-    std::string pop = to_binary_string(local);
-    qDebug()<<pop;
-
-    socket->write(Data);
+    socket->write(QString::fromStdString("Server:" + data.toStdString()).toLocal8Bit());
+    data.clear();
 }
 
 void MyServer::sockDisc()
